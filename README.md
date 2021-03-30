@@ -1,2 +1,2 @@
 # Semillero-RL
-Encontrarán en este repositorio los ejercicios y codigo de las sesiones del semillero
+Encontrarán en este repositorio los ejercicios y código de las sesiones del semillero
