@@ -85,10 +85,7 @@ def visualize(states,actions,n_timesteps,color,title,poss,negss):
         ps +=p
         ns +=n
 
-if __name__ == '__main__':
-    states = np.random.randint(0,2,size=10)
-    actions = np.random.randint(0,5,size=10)
-    visualize(states,actions,10,WHITE)
+
 
 
 
