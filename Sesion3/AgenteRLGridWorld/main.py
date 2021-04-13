@@ -4,8 +4,10 @@ from environments import Env
 from visualizer import visualize
 
 
-env = Env(5,6,walls = [(1,1)],terminal_states = {(0,3):1,(1,3):-1},step_reward = -0.01)
-agent = QAgent(env,alpha = 0.1,epsilon = 0.1,gamma = 0.9)
+env = Env(5,6,walls = [(1,1)],terminal_states = {(0,3):1,(1,3):-1},step_reward = 1)
+
+#Modifiquen los parámetros del agente para que pueda llegar al cuadro verde!
+agent = QAgent(env,alpha = 1,epsilon = 1,gamma = 0)
 
 
 episodes = 10_000
