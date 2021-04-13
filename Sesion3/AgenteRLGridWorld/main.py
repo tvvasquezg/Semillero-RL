@@ -3,10 +3,11 @@ from agents import QAgent
 from environments import Env
 from visualizer import visualize
 
-
+#Modifiquen uno de los parámetros del ambiente para que el agente pueda llegar al cuadro verde!
 env = Env(5,6,walls = [(1,1)],terminal_states = {(0,3):1,(1,3):-1},step_reward = 1)
 
 #Modifiquen los parámetros del agente para que pueda llegar al cuadro verde!
+#...pero también exploren lo que quieran...experimenten y registren los resultados!
 agent = QAgent(env,alpha = 1,epsilon = 1,gamma = 0)
 
 
