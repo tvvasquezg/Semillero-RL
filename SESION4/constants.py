@@ -1,0 +1,2 @@
+GAMMA = 0.9
+ALPHA = 0.1
