@@ -1,3 +1,4 @@
+#ONLY ONE STIMULUS (NO COMPOUND STIMULI)
 import numpy as np
 import matplotlib.pyplot as plt
 
