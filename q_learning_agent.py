@@ -1,11 +1,27 @@
+#QUE SE ASUME:
+#-Siempre se present el estímulo a ser condicionado. En el ejemplo del perro, la campana y comida
+# de pavlov, significa que se asume siempre la presentación de la campana (el estimulo a ser condicionado)
+#-MDP
+#--S: conjunto de valores discretos de predicción de modelo conductual
+#--A: conjunto compuesto por 2 acciones: reforzar o no-reforzar (Extinguir)
+#--T(s, a, s'): La función de transición es determinista puesto que la transición
+#  desde el estado s a s' a traves de la acción a es siempre igual a 1 (T(s, a, s') = 1)
+#--r(s'): La función de refuerzo está definida tal que es -0.01 siempre que el agente 
+#  no se halle en el estado terminal. En este estado terminal el refuerzo es igual a 1.
+#  este estdo terminal representa el máximo valor (discreto) de predicción del modelo conductual
+#  lo que significa que el modelo conductual ha sido exitosamente condicionado
+
+#=======
 #ONLY ONE STIMULUS (NO COMPOUND STIMULI)
+
 import numpy as np
 import matplotlib.pyplot as plt
+import gym 
 
 ALPHA = 0.5
 BETA = 0.5 
-ETA = 0.9
-LAMBDA = 5
+#ETA = 0.9
+LAMBDA = 1
 N_TRIALS = 100
 N_BINS = 10
 N_EPISODES = 20
@@ -16,10 +32,10 @@ v = 0
 
 #Agente de RL. Usa q-learning
 class Agent:
-    def __init__(self, alpha=0.1, epsilon=0.01, gamma=0.9):
+    def __init__(self, alpha=0.1, epsilon=0.01, gamma=0.9, n_actions=2):
         #Asume un mdp con 10 estados (discretización del espacio en 10 bins)
-        self.q_values = np.zeros((N_BINS, 2))
-
+        self.action_space = gym.spaces.Discrete(n_actions)
+        self.q_values = np.zeros((N_BINS, self.action_space.n))
         self.alpha = alpha 
         self.epsilon = epsilon 
         self.gamma = gamma 
@@ -27,7 +43,7 @@ class Agent:
     #Selecciona acción según epsilon y tabla de valores q
     def action(self, state):
         if np.random.random() < self.epsilon:
-            return np.random.choice([0, 1])
+            return self.action_space.sample()
         else:
             return np.argmax(self.q_values[state])
     
@@ -75,15 +91,13 @@ def agent_training(agent):
             
             agent_action = agent.action(old_v)
             #print('step', t, 'state', old_v, 'action', agent_action)
-            dv = ALPHA*BETA*(LAMBDA - v)
+            
             if agent_action:
-                v += dv
+                dv = ALPHA*BETA*(LAMBDA - v)    
             else:
-                    #Invento mio para producir alguna curva algo similar a lo esperado en la extinción
-                    #Hay que averiguar como el modelo de Rescorla Wagner modela el proceso de extinción
-                    #(si es que lo hace)
-                v *= ETA
-
+                dv = ALPHA*BETA*(0 - v)
+                
+            v += dv
             new_v = get_state(v)
             reward = reward_function(LAMBDA, new_v)
             episode_reward += reward
@@ -115,7 +129,7 @@ for nes in n_episode_steps:
 
 plt.show()        
 plt.scatter([x for x in range(len(rewards))], rewards, c='g')        
-plt.plot([x for x in range(len(rewards))], rewards, c='g')        
+plt.plot([x for x in range(len(rewards))], rewards, c='g', linestyle='--')        
 plt.xticks([x for x in range(len(rewards))], [x for x in range(len(rewards))])
 plt.title('Amount of Reward Gained by RL Agent per Episode')
 plt.show()
