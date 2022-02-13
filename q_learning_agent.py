@@ -1,7 +1,9 @@
 #QUE SE ASUME:
 #-Siempre se present el estímulo a ser condicionado. En el ejemplo del perro, la campana y comida
 # de pavlov, significa que se asume siempre la presentación de la campana (el estimulo a ser condicionado)
-#-MDP
+
+
+#MDP
 #--S: conjunto de valores discretos de predicción de modelo conductual
 #--A: conjunto compuesto por 2 acciones: reforzar o no-reforzar (Extinguir)
 #--T(s, a, s'): La función de transición es determinista puesto que la transición
